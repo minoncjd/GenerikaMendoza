@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GenerikaMendozaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="AccountID" />
+    </Key>
+    <Property Name="AccountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="AccountTypeID" Type="Int32" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="AccountType" Relationship="Self.FK_User_UserType" FromRole="Accounts" ToRole="AccountType" />
+    <NavigationProperty Name="Logs" Relationship="GenerikaMendozaModel.FK_Logs_User" FromRole="Account" ToRole="Log" />
+  </EntityType>
+  <EntityType Name="AccountType">
+    <Key>
+      <PropertyRef Name="AccountTypeID" />
+    </Key>
+    <Property Name="AccountTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountType1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Accounts" Relationship="Self.FK_User_UserType" FromRole="AccountType" ToRole="Accounts" />
+  </EntityType>
+  <Association Name="FK_User_UserType">
+    <End Role="AccountType" Type="Self.AccountType" Multiplicity="0..1" />
+    <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountType">
+        <PropertyRef Name="AccountTypeID" />
+      </Principal>
+      <Dependent Role="Accounts">
+        <PropertyRef Name="AccountTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GenerikaMendozaEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Accounts" EntityType="Self.Account" />
+    <EntitySet Name="AccountTypes" EntityType="Self.AccountType" />
+    <AssociationSet Name="FK_User_UserType" Association="Self.FK_User_UserType">
+      <End Role="AccountType" EntitySet="AccountTypes" />
+      <End Role="Accounts" EntitySet="Accounts" />
+    </AssociationSet>
+    <EntitySet Name="Deliveries" EntityType="GenerikaMendozaModel.Delivery" />
+    <EntitySet Name="Sales" EntityType="GenerikaMendozaModel.Sale" />
+    <AssociationSet Name="FK_Sales_Sales" Association="GenerikaMendozaModel.FK_Sales_Sales">
+      <End Role="Delivery" EntitySet="Deliveries" />
+      <End Role="Sale" EntitySet="Sales" />
+    </AssociationSet>
+    <FunctionImport Name="GetDelivery" ReturnType="Collection(GenerikaMendozaModel.GetDelivery_Result)" />
+    <FunctionImport Name="GetDailyDelivery" ReturnType="Collection(GenerikaMendozaModel.GetDailyDelivery_Result)" />
+    <FunctionImport Name="GetSales" ReturnType="Collection(GenerikaMendozaModel.GetSales_Result)" />
+    <EntitySet Name="Products" EntityType="GenerikaMendozaModel.Product" />
+    <EntitySet Name="ProductForms" EntityType="GenerikaMendozaModel.ProductForm" />
+    <EntitySet Name="ProductTypes" EntityType="GenerikaMendozaModel.ProductType" />
+    <EntitySet Name="ProductUnits" EntityType="GenerikaMendozaModel.ProductUnit" />
+    <AssociationSet Name="FK_Delivery_Product" Association="GenerikaMendozaModel.FK_Delivery_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Delivery" EntitySet="Deliveries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductForm" Association="GenerikaMendozaModel.FK_Product_ProductForm">
+      <End Role="ProductForm" EntitySet="ProductForms" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductType" Association="GenerikaMendozaModel.FK_Product_ProductType">
+      <End Role="ProductType" EntitySet="ProductTypes" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductUnit" Association="GenerikaMendozaModel.FK_Product_ProductUnit">
+      <End Role="ProductUnit" EntitySet="ProductUnits" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <FunctionImport Name="GetProducts" ReturnType="Collection(GenerikaMendozaModel.GetProducts_Result)" />
+    <EntitySet Name="Logs" EntityType="GenerikaMendozaModel.Log" />
+    <AssociationSet Name="FK_Logs_User" Association="GenerikaMendozaModel.FK_Logs_User">
+      <End Role="Account" EntitySet="Accounts" />
+      <End Role="Log" EntitySet="Logs" />
+    </AssociationSet>
+    <FunctionImport Name="GetLogs" ReturnType="Collection(GenerikaMendozaModel.GetLogs_Result)">
+      <Parameter Name="date" Mode="In" Type="DateTime" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Delivery">
+    <Key>
+      <PropertyRef Name="DeliveryID" />
+    </Key>
+    <Property Name="DeliveryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="ExpirationDate" Type="DateTime" Precision="0" />
+    <Property Name="DateCreated" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Sales" Relationship="GenerikaMendozaModel.FK_Sales_Sales" FromRole="Delivery" ToRole="Sale" />
+    <NavigationProperty Name="Product" Relationship="GenerikaMendozaModel.FK_Delivery_Product" FromRole="Delivery" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Sale">
+    <Key>
+      <PropertyRef Name="SalesID" />
+    </Key>
+    <Property Name="SalesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeliveryID" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="DateCreated" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Delivery" Relationship="GenerikaMendozaModel.FK_Sales_Sales" FromRole="Sale" ToRole="Delivery" />
+  </EntityType>
+  <Association Name="FK_Sales_Sales">
+    <End Type="GenerikaMendozaModel.Delivery" Role="Delivery" Multiplicity="0..1" />
+    <End Type="GenerikaMendozaModel.Sale" Role="Sale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Delivery">
+        <PropertyRef Name="DeliveryID" />
+      </Principal>
+      <Dependent Role="Sale">
+        <PropertyRef Name="DeliveryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetDelivery_Result">
+    <Property Type="Int32" Name="DeliveryID" Nullable="false" />
+    <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="CurrentStock" Nullable="true" />
+    <Property Type="DateTime" Name="ExpirationDate" Nullable="true" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetDailyDelivery_Result">
+    <Property Type="Int32" Name="DeliveryID" Nullable="false" />
+    <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="ExpirationDate" Nullable="true" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetSales_Result">
+    <Property Type="Int32" Name="DeliveryID" Nullable="false" />
+    <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Quantity" Nullable="true" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProductUnitID" Type="Int32" />
+    <Property Name="ProductFormID" Type="Int32" />
+    <Property Name="ProductTypeID" Type="Int32" />
+    <Property Name="IsAntibiotic" Type="Boolean" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="Deliveries" Relationship="GenerikaMendozaModel.FK_Delivery_Product" FromRole="Product" ToRole="Delivery" />
+    <NavigationProperty Name="ProductForm" Relationship="GenerikaMendozaModel.FK_Product_ProductForm" FromRole="Product" ToRole="ProductForm" />
+    <NavigationProperty Name="ProductType" Relationship="GenerikaMendozaModel.FK_Product_ProductType" FromRole="Product" ToRole="ProductType" />
+    <NavigationProperty Name="ProductUnit" Relationship="GenerikaMendozaModel.FK_Product_ProductUnit" FromRole="Product" ToRole="ProductUnit" />
+  </EntityType>
+  <EntityType Name="ProductForm">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Form" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="GenerikaMendozaModel.FK_Product_ProductForm" FromRole="ProductForm" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="GenerikaMendozaModel.FK_Product_ProductType" FromRole="ProductType" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductUnit">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UnitName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="GenerikaMendozaModel.FK_Product_ProductUnit" FromRole="ProductUnit" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_Delivery_Product">
+    <End Type="GenerikaMendozaModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="GenerikaMendozaModel.Delivery" Role="Delivery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Delivery">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ProductForm">
+    <End Type="GenerikaMendozaModel.ProductForm" Role="ProductForm" Multiplicity="0..1" />
+    <End Type="GenerikaMendozaModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductForm">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ProductFormID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ProductType">
+    <End Type="GenerikaMendozaModel.ProductType" Role="ProductType" Multiplicity="0..1" />
+    <End Type="GenerikaMendozaModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ProductTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ProductUnit">
+    <End Type="GenerikaMendozaModel.ProductUnit" Role="ProductUnit" Multiplicity="0..1" />
+    <End Type="GenerikaMendozaModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductUnit">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ProductUnitID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetProducts_Result">
+    <Property Type="Int32" Name="ProductID" Nullable="false" />
+    <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="UnitName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Form" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ProductTypeName" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsAntibiotic" Nullable="true" />
+    <Property Type="Boolean" Name="IsActive" Nullable="true" />
+    <Property Type="Int32" Name="CurrentStock" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="LogsID" />
+    </Key>
+    <Property Name="LogsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountID" Type="Int32" />
+    <Property Name="Task" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Account" Relationship="GenerikaMendozaModel.FK_Logs_User" FromRole="Log" ToRole="Account" />
+  </EntityType>
+  <Association Name="FK_Logs_User">
+    <End Type="GenerikaMendozaModel.Account" Role="Account" Multiplicity="0..1" />
+    <End Type="GenerikaMendozaModel.Log" Role="Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="AccountID" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetLogs_Result">
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="task" Nullable="true" MaxLength="250" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
+  </ComplexType>
+</Schema>
