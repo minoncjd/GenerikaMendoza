@@ -22,7 +22,7 @@ namespace GenerikaMendoza
     
         public int ProductID { get; set; }
         public string ProductDescription { get; set; }
-        public Nullable<int> ProductUnitID { get; set; }
+        public string ProductDosage { get; set; }
         public Nullable<int> ProductFormID { get; set; }
         public Nullable<int> ProductTypeID { get; set; }
         public Nullable<bool> IsAntibiotic { get; set; }
@@ -32,6 +32,5 @@ namespace GenerikaMendoza
         public virtual ICollection<Delivery> Deliveries { get; set; }
         public virtual ProductForm ProductForm { get; set; }
         public virtual ProductType ProductType { get; set; }
-        public virtual ProductUnit ProductUnit { get; set; }
     }
 }

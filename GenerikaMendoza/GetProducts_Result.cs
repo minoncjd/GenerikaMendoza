@@ -15,7 +15,7 @@ namespace GenerikaMendoza
     {
         public int ProductID { get; set; }
         public string ProductDescription { get; set; }
-        public string UnitName { get; set; }
+        public string ProductDosage { get; set; }
         public string Form { get; set; }
         public string ProductTypeName { get; set; }
         public Nullable<bool> IsAntibiotic { get; set; }

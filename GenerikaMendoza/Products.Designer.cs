@@ -43,9 +43,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cbProductType = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cbProductUnit = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cbIsAntibiotic = new System.Windows.Forms.CheckBox();
+            this.tbProductDosage = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -209,24 +209,15 @@
             this.label2.TabIndex = 36;
             this.label2.Text = "Product Type";
             // 
-            // cbProductUnit
-            // 
-            this.cbProductUnit.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbProductUnit.FormattingEnabled = true;
-            this.cbProductUnit.Location = new System.Drawing.Point(14, 228);
-            this.cbProductUnit.Name = "cbProductUnit";
-            this.cbProductUnit.Size = new System.Drawing.Size(254, 37);
-            this.cbProductUnit.TabIndex = 39;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(9, 208);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 17);
+            this.label4.Size = new System.Drawing.Size(110, 17);
             this.label4.TabIndex = 38;
-            this.label4.Text = "Product Unit";
+            this.label4.Text = "Product Dosage";
             // 
             // cbIsAntibiotic
             // 
@@ -239,13 +230,22 @@
             this.cbIsAntibiotic.Text = "is Antibiotic?";
             this.cbIsAntibiotic.UseVisualStyleBackColor = true;
             // 
+            // tbProductDosage
+            // 
+            this.tbProductDosage.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbProductDosage.Location = new System.Drawing.Point(12, 229);
+            this.tbProductDosage.Margin = new System.Windows.Forms.Padding(4);
+            this.tbProductDosage.Name = "tbProductDosage";
+            this.tbProductDosage.Size = new System.Drawing.Size(279, 38);
+            this.tbProductDosage.TabIndex = 41;
+            // 
             // Products
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1470, 554);
+            this.Controls.Add(this.tbProductDosage);
             this.Controls.Add(this.cbIsAntibiotic);
-            this.Controls.Add(this.cbProductUnit);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbProductType);
             this.Controls.Add(this.label2);
@@ -291,8 +291,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cbProductType;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cbProductUnit;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbIsAntibiotic;
+        private System.Windows.Forms.TextBox tbProductDosage;
     }
 }

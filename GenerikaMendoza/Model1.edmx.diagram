@@ -11,16 +11,14 @@
         <EntityTypeShape EntityType="GenerikaMendozaModel.Delivery" Width="1.5" PointX="3" PointY="5" />
         <EntityTypeShape EntityType="GenerikaMendozaModel.Sale" Width="1.5" PointX="5.25" PointY="5.125" />
         <AssociationConnector Association="GenerikaMendozaModel.FK_Sales_Sales" />
-        <EntityTypeShape EntityType="GenerikaMendozaModel.Product" Width="1.5" PointX="0.75" PointY="5.625" />
         <EntityTypeShape EntityType="GenerikaMendozaModel.ProductForm" Width="1.5" PointX="0.75" PointY="14.75" />
         <EntityTypeShape EntityType="GenerikaMendozaModel.ProductType" Width="1.5" PointX="0.75" PointY="12.375" />
-        <EntityTypeShape EntityType="GenerikaMendozaModel.ProductUnit" Width="1.5" PointX="0.75" PointY="10" />
+        <EntityTypeShape EntityType="GenerikaMendozaModel.Log" Width="1.5" PointX="5.25" PointY="1.25" />
+        <AssociationConnector Association="GenerikaMendozaModel.FK_Logs_User" />
+        <EntityTypeShape EntityType="GenerikaMendozaModel.Product" Width="1.5" PointX="3" PointY="12.875" />
         <AssociationConnector Association="GenerikaMendozaModel.FK_Delivery_Product" />
         <AssociationConnector Association="GenerikaMendozaModel.FK_Product_ProductForm" />
         <AssociationConnector Association="GenerikaMendozaModel.FK_Product_ProductType" />
-        <AssociationConnector Association="GenerikaMendozaModel.FK_Product_ProductUnit" />
-        <EntityTypeShape EntityType="GenerikaMendozaModel.Log" Width="1.5" PointX="5.25" PointY="1.25" />
-        <AssociationConnector Association="GenerikaMendozaModel.FK_Logs_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

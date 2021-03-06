@@ -73,19 +73,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="GenerikaMendozaModel.Product">
-        <MappingFragment StoreEntitySet="Product">
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
-          <ScalarProperty Name="ProductTypeID" ColumnName="ProductTypeID" />
-          <ScalarProperty Name="ProductFormID" ColumnName="ProductFormID" />
-          <ScalarProperty Name="ProductUnitID" ColumnName="ProductUnitID" />
-          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProductForms">
       <EntityTypeMapping TypeName="GenerikaMendozaModel.ProductForm">
         <MappingFragment StoreEntitySet="ProductForm">
@@ -102,28 +89,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProductUnits">
-      <EntityTypeMapping TypeName="GenerikaMendozaModel.ProductUnit">
-        <MappingFragment StoreEntitySet="ProductUnit">
-          <ScalarProperty Name="UnitName" ColumnName="UnitName" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="GetProducts" FunctionName="GenerikaMendozaModel.Store.GetProducts">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="GenerikaMendozaModel.GetProducts_Result">
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-          <ScalarProperty Name="UnitName" ColumnName="UnitName" />
-          <ScalarProperty Name="Form" ColumnName="Form" />
-          <ScalarProperty Name="ProductTypeName" ColumnName="ProductTypeName" />
-          <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="CurrentStock" ColumnName="CurrentStock" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <EntitySetMapping Name="Logs">
       <EntityTypeMapping TypeName="GenerikaMendozaModel.Log">
         <MappingFragment StoreEntitySet="Logs">
@@ -141,6 +106,33 @@
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="task" ColumnName="task" />
           <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="GenerikaMendozaModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
+          <ScalarProperty Name="ProductTypeID" ColumnName="ProductTypeID" />
+          <ScalarProperty Name="ProductFormID" ColumnName="ProductFormID" />
+          <ScalarProperty Name="ProductDosage" ColumnName="ProductDosage" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetProducts" FunctionName="GenerikaMendozaModel.Store.GetProducts">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GenerikaMendozaModel.GetProducts_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="ProductDosage" ColumnName="ProductDosage" />
+          <ScalarProperty Name="Form" ColumnName="Form" />
+          <ScalarProperty Name="ProductTypeName" ColumnName="ProductTypeName" />
+          <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CurrentStock" ColumnName="CurrentStock" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

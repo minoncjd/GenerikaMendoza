@@ -41,9 +41,7 @@ namespace GenerikaMendoza
             cbProductType.DisplayMember = "ProductTypeName";
             cbProductType.ValueMember = "ID";
 
-            cbProductUnit.DataSource = db.ProductUnits.ToList();
-            cbProductUnit.DisplayMember = "UnitName";
-            cbProductUnit.ValueMember = "ID";
+   
 
             Clear();
 
@@ -71,10 +69,10 @@ namespace GenerikaMendoza
         private void btnAdd_Click(object sender, EventArgs e)
         {
             Product product = new Product();
-            if (tbProductDescription.Text != "" || cbProductForm.Text != "" || cbProductType.Text != "" ||  cbProductUnit.Text != "" )
+            if (tbProductDescription.Text != "" || cbProductForm.Text != "" || cbProductType.Text != "" || tbProductDosage.Text != "" )
             {
                 product.ProductDescription = tbProductDescription.Text;
-                product.ProductUnitID = Convert.ToInt32(cbProductUnit.SelectedValue);
+                //product.ProductDosage = Convert.ToInt32(cbProductUnit.SelectedValue);
                 product.ProductTypeID = Convert.ToInt32(cbProductType.SelectedValue);
                 product.ProductFormID = Convert.ToInt32(cbProductForm.SelectedValue);
                 product.IsAntibiotic = cbIsAntibiotic.Checked == true ? true : false;
@@ -96,7 +94,7 @@ namespace GenerikaMendoza
         {
             tbProductCode.Text = "";
             tbProductDescription.Text = "";
-            cbProductUnit.Text = "";
+            tbProductDosage.Text = "";
             cbProductType.Text = "";
             cbProductForm.Text = "";
             cbIsAntibiotic.Checked = false;
@@ -122,7 +120,7 @@ namespace GenerikaMendoza
             cbIsAntibiotic.Checked = product.IsAntibiotic == true ? true : false;
             cbProductForm.Text = product.ProductForm == null ? "" : product.ProductForm.Form;
             cbProductType.Text = product.ProductType == null ? "" : product.ProductType.ProductTypeName;
-            cbProductUnit.Text = product.ProductUnit == null ? "" : product.ProductUnit.UnitName;
+            tbProductDosage.Text = product.ProductDosage == null ? "" : product.ProductDosage;
 
         }
 
@@ -143,7 +141,7 @@ namespace GenerikaMendoza
             {
                 var product = db.Products.Where(m => m.ProductID == productid).FirstOrDefault();
                 product.ProductDescription = tbProductDescription.Text;
-                product.ProductUnitID = Convert.ToInt32(cbProductUnit.SelectedValue);
+                product.ProductDosage = tbProductDosage.Text;
                 product.ProductTypeID = Convert.ToInt32(cbProductType.SelectedValue);
                 product.ProductFormID = Convert.ToInt32(cbProductForm.SelectedValue);
                 product.IsAntibiotic = cbIsAntibiotic.Checked == true ? true : false;

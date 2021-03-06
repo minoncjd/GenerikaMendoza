@@ -48,7 +48,7 @@
           </Key>
           <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductDescription" Type="nvarchar" MaxLength="100" />
-          <Property Name="ProductUnitID" Type="int" />
+          <Property Name="ProductDosage" Type="nvarchar" MaxLength="50" />
           <Property Name="ProductFormID" Type="int" />
           <Property Name="ProductTypeID" Type="int" />
           <Property Name="IsAntibiotic" Type="bit" />
@@ -67,13 +67,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductTypeName" Type="nvarchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="ProductUnit">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UnitName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Sales">
           <Key>
@@ -132,18 +125,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_ProductUnit">
-          <End Role="ProductUnit" Type="Self.ProductUnit" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductUnit">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="ProductUnitID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Sales_Sales">
           <End Role="Delivery" Type="Self.Delivery" Multiplicity="0..1" />
           <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
@@ -183,7 +164,6 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductForm" EntityType="Self.ProductForm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProductUnit" EntityType="Self.ProductUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Delivery_Product" Association="Self.FK_Delivery_Product">
             <End Role="Product" EntitySet="Product" />
@@ -199,10 +179,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Product_ProductType" Association="Self.FK_Product_ProductType">
             <End Role="ProductType" EntitySet="ProductType" />
-            <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_ProductUnit" Association="Self.FK_Product_ProductUnit">
-            <End Role="ProductUnit" EntitySet="ProductUnit" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="FK_Sales_Sales" Association="Self.FK_Sales_Sales">
@@ -267,10 +243,17 @@
           <FunctionImport Name="GetDelivery" ReturnType="Collection(GenerikaMendozaModel.GetDelivery_Result)" />
           <FunctionImport Name="GetDailyDelivery" ReturnType="Collection(GenerikaMendozaModel.GetDailyDelivery_Result)" />
           <FunctionImport Name="GetSales" ReturnType="Collection(GenerikaMendozaModel.GetSales_Result)" />
-          <EntitySet Name="Products" EntityType="GenerikaMendozaModel.Product" />
           <EntitySet Name="ProductForms" EntityType="GenerikaMendozaModel.ProductForm" />
           <EntitySet Name="ProductTypes" EntityType="GenerikaMendozaModel.ProductType" />
-          <EntitySet Name="ProductUnits" EntityType="GenerikaMendozaModel.ProductUnit" />
+          <EntitySet Name="Logs" EntityType="GenerikaMendozaModel.Log" />
+          <AssociationSet Name="FK_Logs_User" Association="GenerikaMendozaModel.FK_Logs_User">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Log" EntitySet="Logs" />
+          </AssociationSet>
+          <FunctionImport Name="GetLogs" ReturnType="Collection(GenerikaMendozaModel.GetLogs_Result)">
+          <Parameter Name="date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="Products" EntityType="GenerikaMendozaModel.Product" />
           <AssociationSet Name="FK_Delivery_Product" Association="GenerikaMendozaModel.FK_Delivery_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="Delivery" EntitySet="Deliveries" />
@@ -283,19 +266,7 @@
             <End Role="ProductType" EntitySet="ProductTypes" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_ProductUnit" Association="GenerikaMendozaModel.FK_Product_ProductUnit">
-            <End Role="ProductUnit" EntitySet="ProductUnits" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
           <FunctionImport Name="GetProducts" ReturnType="Collection(GenerikaMendozaModel.GetProducts_Result)" />
-          <EntitySet Name="Logs" EntityType="GenerikaMendozaModel.Log" />
-          <AssociationSet Name="FK_Logs_User" Association="GenerikaMendozaModel.FK_Logs_User">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Log" EntitySet="Logs" />
-          </AssociationSet>
-          <FunctionImport Name="GetLogs" ReturnType="Collection(GenerikaMendozaModel.GetLogs_Result)">
-            <Parameter Name="date" Mode="In" Type="DateTime" />
-          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Delivery">
           <Key>
@@ -350,22 +321,6 @@
           <Property Type="Int32" Name="Quantity" Nullable="true" />
           <Property Type="DateTime" Name="DateCreated" Nullable="true" />
         </ComplexType>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="ProductID" />
-          </Key>
-          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ProductUnitID" Type="Int32" />
-          <Property Name="ProductFormID" Type="Int32" />
-          <Property Name="ProductTypeID" Type="Int32" />
-          <Property Name="IsAntibiotic" Type="Boolean" />
-          <Property Name="IsActive" Type="Boolean" />
-          <NavigationProperty Name="Deliveries" Relationship="GenerikaMendozaModel.FK_Delivery_Product" FromRole="Product" ToRole="Delivery" />
-          <NavigationProperty Name="ProductForm" Relationship="GenerikaMendozaModel.FK_Product_ProductForm" FromRole="Product" ToRole="ProductForm" />
-          <NavigationProperty Name="ProductType" Relationship="GenerikaMendozaModel.FK_Product_ProductType" FromRole="Product" ToRole="ProductType" />
-          <NavigationProperty Name="ProductUnit" Relationship="GenerikaMendozaModel.FK_Product_ProductUnit" FromRole="Product" ToRole="ProductUnit" />
-        </EntityType>
         <EntityType Name="ProductForm">
           <Key>
             <PropertyRef Name="ID" />
@@ -382,13 +337,48 @@
           <Property Name="ProductTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Products" Relationship="GenerikaMendozaModel.FK_Product_ProductType" FromRole="ProductType" ToRole="Product" />
         </EntityType>
-        <EntityType Name="ProductUnit">
+        <EntityType Name="Log">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="LogsID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UnitName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="GenerikaMendozaModel.FK_Product_ProductUnit" FromRole="ProductUnit" ToRole="Product" />
+          <Property Name="LogsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountID" Type="Int32" />
+          <Property Name="Task" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="GenerikaMendozaModel.FK_Logs_User" FromRole="Log" ToRole="Account" />
+        </EntityType>
+        <Association Name="FK_Logs_User">
+          <End Type="GenerikaMendozaModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="GenerikaMendozaModel.Log" Role="Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountID" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetLogs_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="task" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProductDosage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductFormID" Type="Int32" />
+          <Property Name="ProductTypeID" Type="Int32" />
+          <Property Name="IsAntibiotic" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Deliveries" Relationship="GenerikaMendozaModel.FK_Delivery_Product" FromRole="Product" ToRole="Delivery" />
+          <NavigationProperty Name="ProductForm" Relationship="GenerikaMendozaModel.FK_Product_ProductForm" FromRole="Product" ToRole="ProductForm" />
+          <NavigationProperty Name="ProductType" Relationship="GenerikaMendozaModel.FK_Product_ProductType" FromRole="Product" ToRole="ProductType" />
         </EntityType>
         <Association Name="FK_Delivery_Product">
           <End Type="GenerikaMendozaModel.Product" Role="Product" Multiplicity="0..1" />
@@ -426,55 +416,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_ProductUnit">
-          <End Type="GenerikaMendozaModel.ProductUnit" Role="ProductUnit" Multiplicity="0..1" />
-          <End Type="GenerikaMendozaModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductUnit">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="ProductUnitID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="GetProducts_Result">
           <Property Type="Int32" Name="ProductID" Nullable="false" />
           <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="UnitName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductDosage" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Form" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ProductTypeName" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="IsAntibiotic" Nullable="true" />
           <Property Type="Boolean" Name="IsActive" Nullable="true" />
           <Property Type="Int32" Name="CurrentStock" Nullable="true" />
-        </ComplexType>
-        <EntityType Name="Log">
-          <Key>
-            <PropertyRef Name="LogsID" />
-          </Key>
-          <Property Name="LogsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AccountID" Type="Int32" />
-          <Property Name="Task" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Account" Relationship="GenerikaMendozaModel.FK_Logs_User" FromRole="Log" ToRole="Account" />
-        </EntityType>
-        <Association Name="FK_Logs_User">
-          <End Type="GenerikaMendozaModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="GenerikaMendozaModel.Log" Role="Log" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="AccountID" />
-            </Principal>
-            <Dependent Role="Log">
-              <PropertyRef Name="AccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="GetLogs_Result">
-          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="task" Nullable="true" MaxLength="250" />
-          <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -554,19 +504,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="GenerikaMendozaModel.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
-                <ScalarProperty Name="ProductTypeID" ColumnName="ProductTypeID" />
-                <ScalarProperty Name="ProductFormID" ColumnName="ProductFormID" />
-                <ScalarProperty Name="ProductUnitID" ColumnName="ProductUnitID" />
-                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ProductForms">
             <EntityTypeMapping TypeName="GenerikaMendozaModel.ProductForm">
               <MappingFragment StoreEntitySet="ProductForm">
@@ -583,28 +520,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProductUnits">
-            <EntityTypeMapping TypeName="GenerikaMendozaModel.ProductUnit">
-              <MappingFragment StoreEntitySet="ProductUnit">
-                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetProducts" FunctionName="GenerikaMendozaModel.Store.GetProducts">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GenerikaMendozaModel.GetProducts_Result">
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-                <ScalarProperty Name="UnitName" ColumnName="UnitName" />
-                <ScalarProperty Name="Form" ColumnName="Form" />
-                <ScalarProperty Name="ProductTypeName" ColumnName="ProductTypeName" />
-                <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CurrentStock" ColumnName="CurrentStock" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Logs">
             <EntityTypeMapping TypeName="GenerikaMendozaModel.Log">
               <MappingFragment StoreEntitySet="Logs">
@@ -622,6 +537,33 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="task" ColumnName="task" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="GenerikaMendozaModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
+                <ScalarProperty Name="ProductTypeID" ColumnName="ProductTypeID" />
+                <ScalarProperty Name="ProductFormID" ColumnName="ProductFormID" />
+                <ScalarProperty Name="ProductDosage" ColumnName="ProductDosage" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetProducts" FunctionName="GenerikaMendozaModel.Store.GetProducts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GenerikaMendozaModel.GetProducts_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductDosage" ColumnName="ProductDosage" />
+                <ScalarProperty Name="Form" ColumnName="Form" />
+                <ScalarProperty Name="ProductTypeName" ColumnName="ProductTypeName" />
+                <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CurrentStock" ColumnName="CurrentStock" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

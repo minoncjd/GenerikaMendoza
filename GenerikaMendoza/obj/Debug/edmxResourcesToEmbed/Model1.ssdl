@@ -43,7 +43,7 @@
     </Key>
     <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductDescription" Type="nvarchar" MaxLength="100" />
-    <Property Name="ProductUnitID" Type="int" />
+    <Property Name="ProductDosage" Type="nvarchar" MaxLength="50" />
     <Property Name="ProductFormID" Type="int" />
     <Property Name="ProductTypeID" Type="int" />
     <Property Name="IsAntibiotic" Type="bit" />
@@ -62,13 +62,6 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductTypeName" Type="nvarchar" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="ProductUnit">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UnitName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Sales">
     <Key>
@@ -127,18 +120,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Product_ProductUnit">
-    <End Role="ProductUnit" Type="Self.ProductUnit" Multiplicity="0..1" />
-    <End Role="Product" Type="Self.Product" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProductUnit">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Product">
-        <PropertyRef Name="ProductUnitID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Sales_Sales">
     <End Role="Delivery" Type="Self.Delivery" Multiplicity="0..1" />
     <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
@@ -178,7 +159,6 @@
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductForm" EntityType="Self.ProductForm" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="ProductUnit" EntityType="Self.ProductUnit" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Delivery_Product" Association="Self.FK_Delivery_Product">
       <End Role="Product" EntitySet="Product" />
@@ -194,10 +174,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_Product_ProductType" Association="Self.FK_Product_ProductType">
       <End Role="ProductType" EntitySet="ProductType" />
-      <End Role="Product" EntitySet="Product" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Product_ProductUnit" Association="Self.FK_Product_ProductUnit">
-      <End Role="ProductUnit" EntitySet="ProductUnit" />
       <End Role="Product" EntitySet="Product" />
     </AssociationSet>
     <AssociationSet Name="FK_Sales_Sales" Association="Self.FK_Sales_Sales">

@@ -31,11 +31,10 @@ namespace GenerikaMendoza
         public virtual DbSet<AccountType> AccountTypes { get; set; }
         public virtual DbSet<Delivery> Deliveries { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductForm> ProductForms { get; set; }
         public virtual DbSet<ProductType> ProductTypes { get; set; }
-        public virtual DbSet<ProductUnit> ProductUnits { get; set; }
         public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
     
         public virtual ObjectResult<GetDelivery_Result> GetDelivery()
         {
@@ -52,11 +51,6 @@ namespace GenerikaMendoza
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSales_Result>("GetSales");
         }
     
-        public virtual ObjectResult<GetProducts_Result> GetProducts()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProducts_Result>("GetProducts");
-        }
-    
         public virtual ObjectResult<GetLogs_Result> GetLogs(Nullable<System.DateTime> date)
         {
             var dateParameter = date.HasValue ?
@@ -64,6 +58,11 @@ namespace GenerikaMendoza
                 new ObjectParameter("date", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetLogs_Result>("GetLogs", dateParameter);
+        }
+    
+        public virtual ObjectResult<GetProducts_Result> GetProducts()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProducts_Result>("GetProducts");
         }
     }
 }
