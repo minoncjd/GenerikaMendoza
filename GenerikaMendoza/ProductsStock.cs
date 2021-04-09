@@ -27,6 +27,8 @@ namespace GenerikaMendoza
             this.dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.dataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             dataGridView1.Columns[1].HeaderCell.Value = "Product Name";
             cbProduct.DataSource = db.Products.ToList();
             cbProduct.DisplayMember = "ProductDescription";
@@ -122,12 +124,7 @@ namespace GenerikaMendoza
             }
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            var search = tbSearch.Text;
-            var products = db.GetDelivery().Where(m => m.ProductDescription.ToLower().Contains(search)).ToList();
-             dataGridView1.DataSource = products;
-        }
+  
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -180,6 +177,13 @@ namespace GenerikaMendoza
         private void button3_Click(object sender, EventArgs e)
         {
             Display();
+        }
+
+        private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
+            var search = tbSearch.Text.ToLower();
+            var products = db.GetDelivery().Where(m => m.ProductDescription.ToLower().Contains(search)).ToList();
+            dataGridView1.DataSource = products;
         }
     }
 }

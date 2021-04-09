@@ -68,6 +68,25 @@ namespace GenerikaMendoza
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            var ifExist = db.Products.Where(m => m.ProductDescription.ToLower() == tbProductDescription.Text.ToLower());
+
+            if (ifExist != null)
+            {
+                DialogResult dialogResult = MessageBox.Show("Product Name already exist. Do you want to go to Inventory Form?", "Already Exist", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    ProductsStock x = new ProductsStock();
+                    x.Show();
+                    return;
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
+
+               
+            }
+
             Product product = new Product();
             if (tbProductDescription.Text != "" || cbProductForm.Text != "" || cbProductType.Text != "" || tbProductDosage.Text != "" )
             {
@@ -103,10 +122,10 @@ namespace GenerikaMendoza
 
         private void Display()
         {
-            var products = db.GetProducts().OrderBy(m => m.ProductDescription).ToList();
+            var products = db.GetProducts().Where(m => m.IsActive == true).OrderBy(m => m.ProductDescription).ToList();
             dataGridView1.DataSource = products;
         }
-
+         
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -168,13 +187,14 @@ namespace GenerikaMendoza
             MessageBox.Show("Success");
             Display();
             SaveLogs("Delete product - " + product.ProductDescription);
+            Clear();
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+
+        private void tbSearch_TextChanged(object sender, EventArgs e)
         {
-            var search = tbSearch.Text;
-            var products = db.Products.Where(m => m.IsActive == true).Where(m=>m.ProductDescription.Contains(search) || m.ProductID.ToString() == search)
-                .Select(x => new { x.ProductID, x.ProductDescription }).ToList();
+            var search = tbSearch.Text.ToLower();
+            var products = db.GetProducts().Where(m => m.IsActive == true && m.ProductDescription.ToLower().Contains(search) || m.ProductID.ToString() == search).OrderBy(m => m.ProductDescription).ToList();
             dataGridView1.DataSource = products;
         }
     }

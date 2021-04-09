@@ -37,7 +37,6 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.cbProductForm = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -143,22 +142,12 @@
             // tbSearch
             // 
             this.tbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbSearch.Location = new System.Drawing.Point(565, 27);
+            this.tbSearch.Location = new System.Drawing.Point(447, 27);
             this.tbSearch.Margin = new System.Windows.Forms.Padding(4);
             this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(535, 38);
+            this.tbSearch.Size = new System.Drawing.Size(653, 38);
             this.tbSearch.TabIndex = 14;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(447, 27);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(114, 38);
-            this.btnSearch.TabIndex = 15;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             // 
             // btnClear
             // 
@@ -252,7 +241,6 @@
             this.Controls.Add(this.cbProductForm);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.tbSearch);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
@@ -285,7 +273,6 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.TextBox tbSearch;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.ComboBox cbProductForm;
         private System.Windows.Forms.Label label8;

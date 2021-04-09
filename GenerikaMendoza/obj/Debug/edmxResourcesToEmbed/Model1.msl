@@ -42,17 +42,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="GetDelivery" FunctionName="GenerikaMendozaModel.Store.GetDelivery">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="GenerikaMendozaModel.GetDelivery_Result">
-          <ScalarProperty Name="DeliveryID" ColumnName="DeliveryID" />
-          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-          <ScalarProperty Name="CurrentStock" ColumnName="CurrentStock" />
-          <ScalarProperty Name="ExpirationDate" ColumnName="ExpirationDate" />
-          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="GetDailyDelivery" FunctionName="GenerikaMendozaModel.Store.GetDailyDelivery">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GenerikaMendozaModel.GetDailyDelivery_Result">
@@ -133,6 +122,19 @@
           <ScalarProperty Name="IsAntibiotic" ColumnName="IsAntibiotic" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="CurrentStock" ColumnName="CurrentStock" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDelivery" FunctionName="GenerikaMendozaModel.Store.GetDelivery">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GenerikaMendozaModel.GetDelivery_Result">
+          <ScalarProperty Name="DeliveryID" ColumnName="DeliveryID" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="Form" ColumnName="Form" />
+          <ScalarProperty Name="ProductDosage" ColumnName="ProductDosage" />
+          <ScalarProperty Name="CurrentStock" ColumnName="CurrentStock" />
+          <ScalarProperty Name="ExpirationDate" ColumnName="ExpirationDate" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

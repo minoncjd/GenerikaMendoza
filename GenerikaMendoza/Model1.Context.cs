@@ -36,11 +36,6 @@ namespace GenerikaMendoza
         public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<Product> Products { get; set; }
     
-        public virtual ObjectResult<GetDelivery_Result> GetDelivery()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDelivery_Result>("GetDelivery");
-        }
-    
         public virtual ObjectResult<GetDailyDelivery_Result> GetDailyDelivery()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDailyDelivery_Result>("GetDailyDelivery");
@@ -63,6 +58,11 @@ namespace GenerikaMendoza
         public virtual ObjectResult<GetProducts_Result> GetProducts()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProducts_Result>("GetProducts");
+        }
+    
+        public virtual ObjectResult<GetDelivery_Result> GetDelivery()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDelivery_Result>("GetDelivery");
         }
     }
 }

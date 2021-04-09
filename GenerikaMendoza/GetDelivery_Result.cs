@@ -15,6 +15,8 @@ namespace GenerikaMendoza
     {
         public int DeliveryID { get; set; }
         public string ProductDescription { get; set; }
+        public string Form { get; set; }
+        public string ProductDosage { get; set; }
         public Nullable<int> CurrentStock { get; set; }
         public Nullable<System.DateTime> ExpirationDate { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
